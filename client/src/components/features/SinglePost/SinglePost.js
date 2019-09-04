@@ -36,6 +36,7 @@ class SinglePost extends React.Component {
         {!request.pending && request.success && (post) &&
           <div className="single-post">
               <PageTitle>{post.title}</PageTitle>
+              <p>{`Author: ${post.author}`}</p>
               <HtmlBox>{post.content}</HtmlBox>
           </div>
         }
@@ -52,6 +53,7 @@ SinglePost.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
+      author: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
     })
   ),

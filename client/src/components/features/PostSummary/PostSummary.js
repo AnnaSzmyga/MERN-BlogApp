@@ -9,9 +9,10 @@ import { cutText } from '../../../utils/functions'
 
 import './PostSummary.scss';
 
-const PostSummary = ({ id, title, content }) => (
+const PostSummary = ({ id, title, author, content }) => (
   <article className="post-summary">
     <SmallTitle>{title}</SmallTitle>
+    <p>Author: {author}</p>
     <HtmlBox>{cutText(content, 50)}</HtmlBox>
     <Button variant="primary">
       <Link to={`/posts/${id}`}>Read more</Link>
