@@ -10,7 +10,6 @@ const PostsPage = () => (
     <PageTitle>Posts list</PageTitle>
     <PostsCounter />
     <Posts />
-    <Link to="/posts/test">Post</Link>
   </div>
 );
 
