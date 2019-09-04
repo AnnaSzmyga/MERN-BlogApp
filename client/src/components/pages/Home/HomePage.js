@@ -1,8 +1,9 @@
 import React from 'react';
+import PageTitle from '../../common/PageTitle/PageTitle';
 
 const HomePage = () => (
   <div>
-    <h1>Home</h1>
+    <PageTitle>Home</PageTitle>
   </div>
 );
 
