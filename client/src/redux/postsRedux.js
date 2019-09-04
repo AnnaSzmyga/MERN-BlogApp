@@ -5,7 +5,7 @@ import { API_URL } from '../config';
 
 export const getPosts = ({ posts }) => posts.data;
 export const getPostsAmount = ({ posts }) => posts.data.length;
-export const getSinglePost = ({ posts }) => posts.data[0];
+export const getSinglePost = ({ posts }) => posts.singlePost;
 export const getRequest = ({ posts }) => posts.request;
 
 /* ACTIONS */
@@ -30,6 +30,7 @@ export const errorRequest = error => ({ error, type: ERROR_REQUEST });
 
 const initialState = {
     data: [],
+    singlePost: {},
     request: {
       pending: false,
       error: null,
@@ -45,7 +46,7 @@ export default function reducer(statePart = initialState, action = {}) {
         return { ...statePart, data: action.payload };
       case LOAD_SINGLE_POST:
         console.log(action);
-        return { ...statePart, data: action.payload };
+        return { ...statePart, singlePost: action.payload[0] };
       case START_REQUEST:
         return { ...statePart, request: { pending: true, error: null, success: null } };
       case END_REQUEST:
