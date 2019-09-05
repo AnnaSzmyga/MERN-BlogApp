@@ -2,11 +2,11 @@ import React from 'react';
 import PageTitle from '../../common/PageTitle/PageTitle';
 import PostForm from '../../features/PostForm/PostFormContainer';
 
-const AddPostPage = () => (
+const EditPostPage = () => (
   <div>
-    <PageTitle>Add Post</PageTitle>
-    <PostForm edit={false}/>
+    <PageTitle>Update Post</PageTitle>
+    <PostForm edit={true} />
   </div>
 );
 
-export default AddPostPage;
+export default EditPostPage;

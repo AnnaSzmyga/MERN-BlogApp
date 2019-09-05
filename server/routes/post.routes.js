@@ -12,4 +12,7 @@ router.route('/posts/:id').get(PostController.getSinglePost);
 // add posts
 router.route('/posts').post(PostController.addPost);
 
+// edit post
+router.route('/posts/edit/:id').put(PostController.editPost);
+
 module.exports = router;

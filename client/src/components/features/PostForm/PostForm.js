@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
 import Editor from 'react-medium-editor';
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/default.css';
@@ -24,11 +23,21 @@ class PostForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.resetRequest();
+    const { resetRequest, loadSinglePost, edit, post } = this.props;
+    resetRequest();
+    if (edit) {
+      loadSinglePost();
+      this.setState({ post: {
+          title: post.title,
+          author: post.author,
+          content: post.content
+        }
+      })
+      setTimeout(resetRequest, 2001);
+    }
   }
 
   handleChange = (e) => {
-      console.log(e);
     const { post } = this.state;
     this.setState({ post: { ...post, [e.target.name]: e.target.value }});
   }
@@ -38,24 +47,25 @@ class PostForm extends React.Component {
     this.setState({ post: { ...post, content: text }});
   }
 
-  addPost = (e) => {
-    const { addPost } = this.props;
+  handleSubmit = (e) => {
+    const { addPost, editPost, edit } = this.props;
     const { post } = this.state;
 
     e.preventDefault();
-    addPost(post);
+    edit ? editPost(post) : addPost(post);
   }
 
   render() {
-
     const { post } = this.state;
-    const { request } = this.props;
+    const { request, edit } = this.props;
+    let buttonText = edit ? "Update post" : "Add post";
 
     if(request.error) return <Alert variant="error">{request.error}</Alert>
-    else if(request.success) return <Alert variant="success">Post has been added!</Alert>
+    else if(request.success && !edit) return <Alert variant="success">Post has been added!</Alert>
+    else if(request.success && edit) return <Alert variant="success">Post has been updated!</Alert>
     else if(request.pending) return <Spinner />
     else return (
-      <form onSubmit={this.addPost}>
+      <form onSubmit={this.handleSubmit}>
         <TextField
           label="Title"
           value={post.title}
@@ -79,16 +89,17 @@ class PostForm extends React.Component {
             options={{ placeholder: false, toolbar: { buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3'] } }}
         />
 
-        <Button variant="primary">Add post</Button>
+        <Button variant="primary">{buttonText}</Button>
 
       </form>
     );
-  }
+  };
 };
 
 PostForm.propTypes = {
     request: PropTypes.object.isRequired,
     addPost: PropTypes.func.isRequired,
+    editPost: PropTypes.func.isRequired,
     resetRequest: PropTypes.func.isRequired,
 };
 

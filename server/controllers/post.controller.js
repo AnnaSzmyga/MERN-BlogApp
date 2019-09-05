@@ -14,7 +14,7 @@ exports.getPosts = async (req, res) => {
 // get single post
 exports.getSinglePost = async (req, res) => {
   try {
-    res.status(200).json(await Post.find({ id: req.params.id }));
+    res.status(200).json(await Post.find({ id: '21sd42sdsaaf' }));
   } catch(err) {
     res.status(500).json(err);
   }
@@ -33,6 +33,25 @@ exports.addPost = async function (req, res) {
     newPost.id = uuid();
 
     postSaved = await newPost.save();
+    res.status(200).json(postSaved);
+
+  } catch(err) {
+    res.status(500).json(err);
+  }
+};
+
+// edit post
+exports.editPost = async function (req, res) {
+
+  try {
+    const { title, author, content } = req.body;
+
+    let updatedPost = Post.find({ id: '21sd42sdsaaf' });
+    updatedPost.title = title;
+    updatedPost.author = author;
+    updatedPost.content = content;
+
+    postSaved = await updatedPost.save();
     res.status(200).json(postSaved);
 
   } catch(err) {
