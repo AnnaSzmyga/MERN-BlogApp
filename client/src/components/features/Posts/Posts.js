@@ -8,7 +8,8 @@ import Alert from '../../common/Alert/Alert';
 class Posts extends React.Component {
 
   componentDidMount() {
-    const { loadPosts } = this.props;
+    const { resetRequest, loadPosts } = this.props;
+    resetRequest();
     loadPosts();
   }
 
@@ -37,6 +38,7 @@ Posts.propTypes = {
     })
   ),
   loadPosts: PropTypes.func.isRequired,
+  resetRequest: PropTypes.func.isRequired,
 };
 
 export default Posts;

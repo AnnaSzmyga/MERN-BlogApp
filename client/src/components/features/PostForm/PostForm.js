@@ -8,6 +8,8 @@ import 'medium-editor/dist/css/themes/default.css';
 import TextField from '../../common/TextField/TextField';
 import SectionTitle from '../../common/SectionTitle/SectionTitle';
 import Button from '../../common/Button/Button';
+import Alert from '../../common/Alert/Alert';
+import Spinner from '../../common/Spinner/Spinner';
 
 import './PostForm.scss';
 
@@ -21,6 +23,10 @@ class PostForm extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.props.resetRequest();
+  }
+
   handleChange = (e) => {
       console.log(e);
     const { post } = this.state;
@@ -32,12 +38,24 @@ class PostForm extends React.Component {
     this.setState({ post: { ...post, content: text }});
   }
 
+  addPost = (e) => {
+    const { addPost } = this.props;
+    const { post } = this.state;
+
+    e.preventDefault();
+    addPost(post);
+  }
+
   render() {
 
     const { post } = this.state;
+    const { request } = this.props;
 
-    return (
-      <div>
+    if(request.error) return <Alert variant="error">{request.error}</Alert>
+    else if(request.success) return <Alert variant="success">Post has been added!</Alert>
+    else if(request.pending) return <Spinner />
+    else return (
+      <form onSubmit={this.addPost}>
         <TextField
           label="Title"
           value={post.title}
@@ -63,9 +81,15 @@ class PostForm extends React.Component {
 
         <Button variant="primary">Add post</Button>
 
-      </div>
+      </form>
     );
   }
+};
+
+PostForm.propTypes = {
+    request: PropTypes.object.isRequired,
+    addPost: PropTypes.func.isRequired,
+    resetRequest: PropTypes.func.isRequired,
 };
 
 export default PostForm;

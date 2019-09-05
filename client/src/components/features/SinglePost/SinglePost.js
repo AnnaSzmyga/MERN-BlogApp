@@ -8,22 +8,12 @@ import HtmlBox from '../../common/HtmlBox/HtmlBox';
 
 import './SinglePost.scss';
 
-// const SinglePost = ({post, ...restProps}) => {
-
-//     console.log(post);
-//     return (
-//         <div className="single-post">
-//             <PageTitle>{post.title}</PageTitle>
-//             <HtmlBox>{post.content}</HtmlBox>
-//         </div>
-//     );
-// }
-
 
 class SinglePost extends React.Component {
 
   componentDidMount() {
-    const { loadSinglePost } = this.props;
+    const { resetRequest, loadSinglePost } = this.props;
+    resetRequest();
     loadSinglePost();
   }
 
@@ -58,6 +48,7 @@ SinglePost.propTypes = {
     })
   ),
   loadSinglePost: PropTypes.func.isRequired,
+  resetRequest: PropTypes.func.isRequired,
 };
 
 export default SinglePost;
