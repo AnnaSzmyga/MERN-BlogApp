@@ -19,7 +19,8 @@ class PostForm extends React.Component {
       title: '',
       author: '',
       content: ''
-    }
+    },
+    isSubmitClicked: false
   }
 
   componentDidMount() {
@@ -33,7 +34,6 @@ class PostForm extends React.Component {
           content: post.content
         }
       })
-      setTimeout(resetRequest, 2001);
     }
   }
 
@@ -53,16 +53,17 @@ class PostForm extends React.Component {
 
     e.preventDefault();
     edit ? editPost(post) : addPost(post);
+    this.setState({isSubmitClicked: true});
   }
 
   render() {
-    const { post } = this.state;
+    const { post, isSubmitClicked } = this.state;
     const { request, edit } = this.props;
     let buttonText = edit ? "Update post" : "Add post";
 
     if(request.error) return <Alert variant="error">{request.error}</Alert>
-    else if(request.success && !edit) return <Alert variant="success">Post has been added!</Alert>
-    else if(request.success && edit) return <Alert variant="success">Post has been updated!</Alert>
+    else if(request.success && !edit && isSubmitClicked) return <Alert variant="success">Post has been added!</Alert>
+    else if(request.success && edit && isSubmitClicked) return <Alert variant="success">Post has been updated!</Alert>
     else if(request.pending) return <Spinner />
     else return (
       <form onSubmit={this.handleSubmit}>
