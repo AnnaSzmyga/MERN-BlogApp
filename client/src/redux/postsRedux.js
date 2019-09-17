@@ -48,7 +48,7 @@ export default function reducer(statePart = initialState, action = {}) {
         return { ...statePart, data: action.payload };
       case LOAD_SINGLE_POST:
         console.log(action);
-        return { ...statePart, singlePost: action.payload[0] };
+        return { ...statePart, singlePost: action.payload };
       case START_REQUEST:
         return { ...statePart, request: { pending: true, error: null, success: null } };
       case END_REQUEST:
@@ -81,13 +81,13 @@ export const loadPostsRequest = () => {
   };
 };
 
-export const loadSinglePostRequest = () => {
+export const loadSinglePostRequest = (id) => {
   return async dispatch => {
 
     dispatch(startRequest());
     try {
 
-      let res = await axios.get(`${API_URL}/posts/:id`);
+      let res = await axios.get(`${API_URL}/posts/${id}`);
       await new Promise((resolve, reject) => setTimeout(resolve, 2000));
       dispatch(loadSinglePost(res.data));
       dispatch(endRequest());

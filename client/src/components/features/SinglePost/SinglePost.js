@@ -12,26 +12,25 @@ import './SinglePost.scss';
 class SinglePost extends React.Component {
 
   componentDidMount() {
-    const { resetRequest, loadSinglePost } = this.props;
+    const { resetRequest, loadSinglePost, match } = this.props;
     resetRequest();
-    loadSinglePost();
+    loadSinglePost(match.params.id);
   }
 
   render() {
-    const { post, request } = this.props;
-    console.log(post);
+    const { singlePost, request } = this.props;
     return (
       <div>
         {request.pending && (request.success === null) && <Spinner />}
-        {!request.pending && request.success && (post) &&
+        {!request.pending && request.success && (singlePost) && (
           <div className="single-post">
-              <PageTitle>{post.title}</PageTitle>
-              <p>{`Author: ${post.author}`}</p>
-              <HtmlBox>{post.content}</HtmlBox>
+              <PageTitle>{singlePost.title}</PageTitle>
+              <p>{`Author: ${singlePost.author}`}</p>
+              <HtmlBox>{singlePost.content}</HtmlBox>
           </div>
-        }
-        {!request.pending && (request.error !== null) && <Alert>{request.error}</Alert>}
-        {!request.pending && request.success && (!post) && <Alert>No such a post!</Alert>}
+        )}
+        {!request.pending && (request.error !== null) && <Alert variant="info">{request.error}</Alert>}
+        {!request.pending && request.success && (!singlePost) && <Alert variant="info">No such a post!</Alert>}
       </div>
     );
   }
